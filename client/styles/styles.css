@@ -121,7 +121,7 @@ form {
     cursor: pointer;
 }
 
-.submit {
+.button {
   background: linear-gradient(#C45957, #B0394F);
   margin: 0;
   border: 0;
@@ -131,7 +131,12 @@ form {
   font-weight: bold;
   float: right;
   padding: 8px 16px;
+  margin-left: 7px;
+}
 
+.rooms {
+  height: 29px;
+  width: 80px;
 }
 
 button:focus {
@@ -139,6 +144,6 @@ button:focus {
 }
 
 
-.submit:active {
+.button:active {
   background: linear-gradient(#F36E6B, #D74560);
 }

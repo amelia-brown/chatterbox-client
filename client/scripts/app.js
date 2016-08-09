@@ -3,7 +3,7 @@ $(document).ready(function() {
   var username = window.location.search.substr(1).split('=')[1];
   var getMessages = function() {
     $.ajax({
-      method: 'get',
+      method: 'GET',
       url: 'https://api.parse.com/1/classes/messages',
       data: {
         format: 'json'
@@ -18,22 +18,32 @@ $(document).ready(function() {
   };
 
   var firstRender = true;
+  window.roomsList = [];
 
   var renderMessages = function(data) {
-    //store parsed node-date of top node
-    //compare the node-date to each results.createdAt property
-    // when node-date === createdAt, everything 0 -> i in Array is new.
-    // remove i number of nodes from bottom of messages
-    // prepend 0 -> i from Array into messages.
+    var roomSelection = $('.rooms').val();
+    if (roomSelection !== 'all') {
+      $('.message').css('display', 'none');
+      $('.' + roomSelection).css('display', 'block');
+    } else {
+      $('.message').css('display', 'block');
+    }
     var newMessages;
     var newestNodeDate = Date.parse($('.message-container div:first-child').data('created-at')) || null;
+
     for (var i = 0; i < data.results.length; i++) {
       if (newestNodeDate >= Date.parse(data.results[i].createdAt)) {
         firstRender = false;
         newMessages = data.results.slice(0, i);
+        if (roomsList.indexOf(data.results[i].roomname) === -1 && data.results[i].roomname !== undefined) {
+          roomsList.push(data.results[i].roomname);
+          var newRoom = $('<option>' + data.results[i].roomname + '</option>');
+          $('.rooms').append(newRoom);
+        }
         break;
       }
     }
+
     if (newMessages === undefined) {
       newMessages = data.results.slice();
     }
@@ -43,17 +53,15 @@ $(document).ready(function() {
         $('.message-container div:last-child').remove();
       }
       
-      var newNode = $('<div class="message" ' + 'data-created-at="' + data.results[i].createdAt + '"></div>');
+      var newNode = $('<div class="message ' + data.results[i].roomname + '" ' + 'data-created-at="' + data.results[i].createdAt + '"></div>');
       var user = $('<span class="user">' + newMessages[i].username + '</span>');
       var message = ': ' + newMessages[i].text;
       newNode.text(message);
       newNode.prepend(user);
       $('.message-container').prepend(newNode);
+
     }
-    // var node = $('<div class="message" ' + 'data-created-at="' + data.results[i].createdAt + '"></div>');
-    // var message = data.results[i].username + ': ' + data.results[i].text;
-    // node.text(message);
-    // $('.message-container').prepend(node);
+
   
   };
 
@@ -62,11 +70,11 @@ $(document).ready(function() {
     var message = {
       text: text, 
       username: username,
-      roomname: '4chan',
+      roomname: $('.rooms').val()
     };
 
     $.ajax({
-      method: 'post',
+      method: 'POST',
       url: 'https://api.parse.com/1/classes/messages',
       data: JSON.stringify(message),
       contentType: 'application/json',
@@ -87,6 +95,13 @@ $(document).ready(function() {
     return false;
   });
 
+  $('.new-room').on('click', function() {
+    var input = $('<input type="text">');
+    $('.form')  
+  });
+
   setInterval(getMessages, 1000);
   window.app = {init: function() {} };
+  app.send = postMessage;
+  app.fetch = getMessages;
 });
