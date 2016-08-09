@@ -3,10 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>chatterbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="styles/styles.css">
 
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/backbone/backbone.js"></script>
     <!-- your scripts -->
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
@@ -14,8 +17,12 @@
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-      <!-- Your HTML goes here! -->
+      <form class="form">
+        <textarea class="textbox"></textarea>
+        <button type="submit" class="submit">Submit</button>
+      </form>
+      <div class="message-container"></div>
     </div>
-    <div id="chats"></div>
+
   </body>
 </html>

@@ -1,16 +1,17 @@
 body {
-    background: #eee;
+    background: url("../images/watercolour-background.jpg");
     text-align: center;
-    padding: 0 25px;
-    font-family: arial, sans-serif;
+    height: 97vh;
+    font-family: 'Raleway', sans-serif;
 }
 
 #main, #chats {
     width: 500px;
+    height: 100%;
     margin: auto;
     text-align: left;
-    background: white;
-    padding: 50px 60px;
+    background: #F9FFFF;
+    padding: 0 60px;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
 }
@@ -18,8 +19,9 @@ body {
 #main h1 {
     margin-top: 0;
     font-size: 35px;
+    text-align: center;
     margin-bottom: 5px;
-    padding: 5px;
+    padding: 25px 5px 0;
 }
 
 #main h1 span {
@@ -47,17 +49,13 @@ body {
 }
 
 form {
-    padding: 20px;
-    padding-left: 0;
-    margin-bottom: 20px;
+    display: block;
+    width: 400px;
+    height: 50px;
+    padding: 0;
+    margin: 30px auto 20px;
 }
 
-form input[type=text] {
-    margin-right: 10px;
-    width: 70%;
-    font-size: 12px;
-    padding: 5px;
-}
 
 .chat {
     padding: 5px;
@@ -88,3 +86,59 @@ form input[type=text] {
     background-color: #0090da;
 }
 
+.message-container {
+    width: 500px;
+    height: 75vh;
+    overflow: scroll;
+}
+
+.message {
+    padding: 10px 0;
+}
+
+.textbox {
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+    padding: 0;
+    background: #FFF7FF;
+    /*padding: 5px;*/
+    resize: none;
+}
+
+.textbox:focus{
+    outline: 0;
+}
+.user {
+    color: #3B3985;
+    font-weight: 100;
+    text-shadow: 0 1px 1px #7056A8;
+}
+
+.user:hover {
+    color: #D7484A;
+    text-shadow: 0 1px 1px #F38059;
+    cursor: pointer;
+}
+
+.submit {
+  background: linear-gradient(#C45957, #B0394F);
+  margin: 0;
+  border: 0;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  float: right;
+  padding: 8px 16px;
+
+}
+
+button:focus {
+    outline: 0;
+}
+
+
+.submit:active {
+  background: linear-gradient(#F36E6B, #D74560);
+}
