@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-  var username = window.location.search.substr(1).split('=')[1];
+  var username = window.location.search.substr(1).split('=');
+  username = username[username.length - 1];
   var getMessages = function() {
     $.ajax({
       method: 'GET',
@@ -10,6 +11,23 @@ $(document).ready(function() {
       },
       success: function(data) {
         renderMessages(data);
+      },
+      error: function() {
+        console.log('error when fetching data');
+      }
+    });  
+  };
+
+  window.hack = function() {
+    $.ajax({
+      type: 'POST',
+      url: 'https://api.parse.com/1/classes/messages',
+      headers: {'X-HTTP-Method-Override': 'PUT'},
+      data: {
+        format: 'jsonp'
+      },
+      success: function(data) {
+        console.log(data);
       },
       error: function() {
         console.log('error when fetching data');
@@ -54,7 +72,7 @@ $(document).ready(function() {
       }
       
       var newNode = $('<div class="message ' + data.results[i].roomname + '" ' + 'data-created-at="' + data.results[i].createdAt + '"></div>');
-      var user = $('<span class="user">' + newMessages[i].username + '</span>');
+      var user = $('<span class="user ' + data.results[i].username + '">' + newMessages[i].username + '</span>');
       var message = ': ' + newMessages[i].text;
       newNode.text(message);
       newNode.prepend(user);
@@ -95,10 +113,46 @@ $(document).ready(function() {
     return false;
   });
 
-  $('.new-room').on('click', function() {
-    var input = $('<input type="text">');
-    $('.form')  
+  $('.message-box').keydown(function(e) {
+    if (e.keyCode == 13) {
+      e.preventDefault();
+      if ($('.message-box').val().trim()) {
+        postMessage($('.message-box').val());
+      }
+      $('.message-box').val('');
+    }
   });
+
+  $('.new-room').on('click', function() {
+    $('.room-input').toggle('slide');
+    if ($('.room-input').val().length > 0) { 
+      var newRoom = $('.room-input').val();
+      roomsList.push(newRoom);
+      newRoom = $('<option>' + newRoom + '</option>');
+      $('.rooms').prepend(newRoom);
+      $('.rooms').val(newRoom);
+    }
+  });
+
+  $('.room-input').keydown(function(e) {
+    if (e.keyCode == 13) {
+      e.preventDefault();
+      if ($('.room-input').val().trim()) {
+        var newRoom = $('.room-input').val();
+        roomsList.push(newRoom);
+        newRoom = $('<option value="' + newRoom + '" selected>' + newRoom + '</option>');
+        $('.rooms').prepend(newRoom);
+        $('.rooms').val(newRoom);
+      }
+      $('.room-input').val('');
+    }
+  });
+
+  $('.user').on('click', function() {
+    console.log(this);
+  });
+
+
 
   setInterval(getMessages, 1000);
   window.app = {init: function() {} };

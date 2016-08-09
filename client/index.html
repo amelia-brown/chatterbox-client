@@ -17,14 +17,15 @@
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-      <form class="form">
-        <textarea class="textbox"></textarea>
-        <button type="submit" class="submit button">Submit</button>
+      <div class="form">
+        <textarea class="textbox message-box"></textarea>
+        <button type="submit" class="submit button">Send</button>
         <select name="rooms" class="rooms button">
           <option value="all">All Rooms</option>
         </select>
         <button type="submit" class="new-room button">+</button>
-      </form>
+        <textarea type="text" class="room-input textbox"></textarea>
+      </div>
       <div class="message-container"></div>
     </div>
   </body>
