@@ -20,6 +20,8 @@ body {
 #main h1 {
     margin-top: 0;
     font-size: 35px;
+    color: #4A3686;
+    text-shadow: 1px 1px 40px #8780F5;
     text-align: center;
     margin-bottom: 5px;
     padding: 25px 5px 0;
@@ -82,11 +84,6 @@ body {
     padding: 10px;
 }
 
-.friend {
-    color: #fff;
-    background-color: #0090da;
-}
-
 .message-container {
     width: 500px;
     height: 75vh;
@@ -94,7 +91,10 @@ body {
 }
 
 .message {
-    padding: 10px 0;
+    padding: 10px 10px;
+}
+.message:hover {
+    background: rgba(249, 255, 255, .1);
 }
 
 .textbox {
@@ -102,7 +102,7 @@ body {
     height: 100%;
     font-size: 12px;
     padding: 3px;
-    background: #FFF7FF;
+    background: rgba(255,247,255, .6);
     /*padding: 5px;*/
     resize: none;
 }
@@ -141,7 +141,7 @@ body {
   width: 80px;
 }
 
-button:focus {
+.button:focus {
     outline: 0;
 }
 
@@ -157,5 +157,12 @@ button:focus {
   background: linear-gradient(#F36E6B, #D74560);
 }
 .button:active {
-  background: linear-gradient(#C45957, #B0394F);
+  background: linear-gradient(#B0394F, #C45957);
+}
+
+.friend {
+  color: red;
+}
+.friend:before{
+    content: <i class="material-icons">star_rate</i>;
 }

@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   var username = window.location.search.substr(1).split('=');
-  username = username[username.length - 1];
+  username = username[username.length - 1].split('%20').join(' ');
   var getMessages = function() {
     $.ajax({
       method: 'GET',
@@ -37,6 +37,7 @@ $(document).ready(function() {
 
   var firstRender = true;
   window.roomsList = [];
+  window.friends = {};
 
   var renderMessages = function(data) {
     var roomSelection = $('.rooms').val();
@@ -72,14 +73,30 @@ $(document).ready(function() {
       }
       
       var newNode = $('<div class="message ' + data.results[i].roomname + '" ' + 'data-created-at="' + data.results[i].createdAt + '"></div>');
-      var user = $('<span class="user ' + data.results[i].username + '">' + newMessages[i].username + '</span>');
+      var parsedUser = data.results[i].username.split(' ').join('').split('%20').join('');
+      var user = $('<span class="user ' + parsedUser + '">' + newMessages[i].username.split('%20').join(' ') + '</span>');
+      if (friends[data.results[i].username] !== undefined) {
+        user.addClass('friend');
+      }
+
+
       var message = ': ' + newMessages[i].text;
       newNode.text(message);
       newNode.prepend(user);
       $('.message-container').prepend(newNode);
 
+      newNode.find('span').on('click', function() {
+        var user = $(this).text();
+        var parsedUser = user.split(' ').join('').split('%20').join('');
+        if (friends[user] === undefined) {
+          friends[user] = user;
+        } else {
+          delete friends[user];
+        }
+        $('.' + parsedUser).toggleClass('friend');
+      });
     }
-
+    
   
   };
 
@@ -132,6 +149,7 @@ $(document).ready(function() {
       $('.rooms').prepend(newRoom);
       $('.rooms').val(newRoom);
     }
+    $('.room-input').val('');
   });
 
   $('.room-input').keydown(function(e) {
@@ -140,7 +158,7 @@ $(document).ready(function() {
       if ($('.room-input').val().trim()) {
         var newRoom = $('.room-input').val();
         roomsList.push(newRoom);
-        newRoom = $('<option value="' + newRoom + '" selected>' + newRoom + '</option>');
+        newRoom = $('<button value="' + newRoom + '" selected>' + newRoom + '</button>');
         $('.rooms').prepend(newRoom);
         $('.rooms').val(newRoom);
       }
@@ -148,9 +166,7 @@ $(document).ready(function() {
     }
   });
 
-  $('.user').on('click', function() {
-    console.log(this);
-  });
+
 
 
 
@@ -158,4 +174,10 @@ $(document).ready(function() {
   window.app = {init: function() {} };
   app.send = postMessage;
   app.fetch = getMessages;
+
+
 });
+
+
+
+
